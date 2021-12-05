@@ -23,6 +23,8 @@ case class Line(a: Point, b: Point) {
     } else map
   }
 
+  println(onlyOrthogonalOverlaps.values.count(_ > 1))
+
   val allOverlaps = input.foldLeft(Map[Point, Int]()) { (map, line) =>
     val directionX = line.b.x.compare(line.a.x)
     val directionY = line.b.y.compare(line.a.y)
@@ -33,6 +35,5 @@ case class Line(a: Point, b: Point) {
     }
   }
 
-  println(onlyOrthogonalOverlaps.values.count(_ > 1))
   println(allOverlaps.values.count(_ > 1))
 }

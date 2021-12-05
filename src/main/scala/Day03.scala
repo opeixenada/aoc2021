@@ -1,14 +1,18 @@
-import Util.{getBit, readFile, setBit}
+import Util.readFile
 
 import scala.annotation.tailrec
 import scala.io.Source
+
+def getBit(x: Int, position: Int): Int = (x >> position) & 1
+
+def setBit(x: Int, position: Int): Int = x | (1 << position)
 
 def calculateBitSum(sum: Int, x: Int, position: Int): Int = sum + getBit(x, position)
 
 def calculateBitSums(sums: List[Int], x: Int): List[Int] = sums.zipWithIndex.map { (y, i) => calculateBitSum(y, x, i) }
 
 @tailrec
-def findValue(xs: List[Int], position: Int, coefficient: Boolean): Int = {
+def findValue(xs: List[Int], position: Int, coefficient: Boolean): Int =
   if (xs.length == 1) xs.head
   else {
     val bitSum = xs.foldLeft(0) { (acc, x) => calculateBitSum(acc, x, position) }
@@ -19,7 +23,6 @@ def findValue(xs: List[Int], position: Int, coefficient: Boolean): Int = {
       coefficient
     )
   }
-}
 
 @main def day03(): Unit = {
   val input = readFile("resources/day03")
