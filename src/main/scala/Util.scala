@@ -7,4 +7,6 @@ object Util {
     bufferedSource.close
     result
   }
+  
+  def intList(filename: String): List[Int] = readFile(filename).head.split(',').map(_.toInt).toList
 }

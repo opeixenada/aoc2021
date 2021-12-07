@@ -1,7 +1,7 @@
-import Util.readFile
+import Util.intList
 
 @main def day06(): Unit = {
-  val input = readFile("resources/day06").head.split(',').map(_.toInt)
+  val input = intList("resources/day06")
 
   var cache: Map[Int, BigInt] = Map.empty
 
