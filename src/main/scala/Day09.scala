@@ -1,22 +1,15 @@
-import Util.readFile
+import Util.{Coordinates, intMatrix, getNeighbours}
 
+import java.lang.Math.*
 import scala.annotation.tailrec
-import Math.*
 
-type Coordinates = (Int, Int)
 type Basin = Set[Coordinates]
 
 @main def day09(): Unit = {
-  val input: IndexedSeq[IndexedSeq[Int]] = readFile("resources/day09").map(_.map(_.toString.toInt)).toIndexedSeq
-
-  def getNeighbours(i: Int, j: Int): Seq[Coordinates] =
-    (for (x <- max(0, i - 1) to min(i + 1, input.length - 1);
-          y <- max(0, j - 1) to min(j + 1, input.head.length - 1))
-    yield (x, y))
-      .filterNot((x, y) => x == i && y == j)
+  val input: IndexedSeq[IndexedSeq[Int]] = intMatrix("resources/day09")
 
   val minimums = (for (i <- input.indices; j <- input.head.indices) yield {
-    val isMinimum: Boolean = getNeighbours(i, j)
+    val isMinimum: Boolean = getNeighbours(i, j, input)
       .map(input(_)(_))
       .foldLeft(true) { (acc, x) => acc && input(i)(j) < x }
 
@@ -29,7 +22,7 @@ type Basin = Set[Coordinates]
   def findBasins(incompleteBasins: List[Basin], completeBasins: List[Basin]): List[Basin] = incompleteBasins match {
     case x :: xs =>
       val newBasinPoints = x.flatMap { (i, j) =>
-        getNeighbours(i, j).filter { (a, b) =>
+        getNeighbours(i, j, input).filter { (a, b) =>
           (i == a || j == b) && !x.contains(a -> b) && input(a)(b) != 9
         }
       }
