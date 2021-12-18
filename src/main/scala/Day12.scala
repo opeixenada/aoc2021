@@ -1,9 +1,8 @@
-import Util.{Coordinates, getNeighbours, intMatrix, readFile}
+import Util.readFile
 
 import scala.annotation.tailrec
 
 @main def day12(): Unit = {
-
   val input: Map[String, List[String]] = readFile("resources/day12").map { x =>
     val split = x.split("-")
     split.head -> split.last
