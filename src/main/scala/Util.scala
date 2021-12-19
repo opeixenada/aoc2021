@@ -20,4 +20,8 @@ object Util {
           y <- max(0, j - 1) to min(j + 1, input.head.length - 1))
     yield (x, y))
       .filterNot((x, y) => x == i && y == j)
+
+  def intFromBinary(x: String): Int = Integer.parseInt(x, 2)
+
+  def bigIntFromBinary(x: String): BigInt = BigInt(x, 2)
 }
