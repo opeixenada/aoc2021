@@ -9,13 +9,6 @@ import scala.annotation.tailrec
     def typeID: Int
   }
 
-  /**
-   * Left: total length in bits
-   * or
-   * Right: number of sub-packets immediately contained
-   */
-  type Length = Either[Int, Int]
-
   case class Literal(version: Int, typeID: Int, value: BigInt) extends Packet
   case class Operator(version: Int, typeID: Int, packets: List[Packet]) extends Packet
 
@@ -36,11 +29,9 @@ import scala.annotation.tailrec
           case '0' =>
             val totalLength = intFromBinary(xs.slice(7, 22))
             val packets = parsePackets(xs.slice(22, 22 + totalLength))
-            val tail = xs.drop(22 + totalLength)
-            Operator(version, typeID, packets) -> tail
+            Operator(version, typeID, parsePackets(xs.slice(22, 22 + totalLength))) -> xs.drop(22 + totalLength)
           case _ =>
-            val packetsCount = intFromBinary(xs.slice(7, 18))
-            val (packets, tail) = (0 until packetsCount).foldLeft((List.empty[Packet], xs.drop(18))) {
+            val (packets, tail) = (0 until intFromBinary(xs.slice(7, 18))).foldLeft((List.empty[Packet], xs.drop(18))) {
               case ((packets, s), _) =>
                 val (packet, tail) = parsePacket(s)
                 (packet :: packets) -> tail
