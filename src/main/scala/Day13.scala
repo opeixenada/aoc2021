@@ -19,12 +19,9 @@ import scala.annotation.tailrec
 
   def fold(input: List[Coordinates], fold: (String, Int)): List[Coordinates] = input.map { case (x, y) =>
     fold._1 match {
-      case "x" =>
-        if (x > fold._2) (2 * fold._2 - x) -> y
-        else x -> y
-      case "y" =>
-        if (y > fold._2) x -> (2 * fold._2 - y)
-        else x -> y
+      case "x" if x > fold._2 => (2 * fold._2 - x) -> y
+      case "y" if y > fold._2 => x -> (2 * fold._2 - y)
+      case _ => x -> y
     }
   }.distinct
 
