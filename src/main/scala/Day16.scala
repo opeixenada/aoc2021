@@ -20,12 +20,12 @@ import scala.annotation.tailrec
     val version = intFromBinary(xs.take(3))
     val typeID = intFromBinary(xs.slice(3, 6))
 
-    typeID match {
+    typeID match
       case 4 =>
         val (literalValue, tail) = parseLiteralValue(xs.drop(6))
         Literal(version, typeID, literalValue) -> tail
       case _ =>
-        xs(6) match {
+        xs(6) match
           case '0' =>
             val totalLength = intFromBinary(xs.slice(7, 22))
             val packets = parsePackets(xs.slice(22, 22 + totalLength))
@@ -37,8 +37,6 @@ import scala.annotation.tailrec
                 (packet :: packets) -> tail
             }
             Operator(version, typeID, packets) -> tail
-        }
-    }
   }
 
   @tailrec
@@ -50,18 +48,16 @@ import scala.annotation.tailrec
     }
 
   @tailrec
-  def parseLiteralValue(xs: String, prefix: String = ""): (BigInt, String) = xs.head match {
+  def parseLiteralValue(xs: String, prefix: String = ""): (BigInt, String) = xs.head match
     case '1' => parseLiteralValue(xs.drop(5), prefix + xs.tail.take(4))
     case _ => bigIntFromBinary(prefix + xs.tail.take(4)) -> xs.drop(5)
-  }
 
-  def versionsSum(packet: Packet): Int = packet match {
+  def versionsSum(packet: Packet): Int = packet match
     case Operator(version, _, packets) => version + packets.map(versionsSum).sum
     case Literal(version, _, _) => version
-  }
 
-  def eval(packet: Packet): BigInt = packet match {
-    case Operator(_, typeID, packets) => typeID match {
+  def eval(packet: Packet): BigInt = packet match
+    case Operator(_, typeID, packets) => typeID match
       case 0 => packets.map(eval).sum
       case 1 => packets.map(eval).product
       case 2 => packets.map(eval).min
@@ -69,9 +65,7 @@ import scala.annotation.tailrec
       case 5 => if (eval(packets.last) > eval(packets.head)) 1 else 0
       case 6 => if (eval(packets.last) < eval(packets.head)) 1 else 0
       case 7 => if (eval(packets.last) == eval(packets.head)) 1 else 0
-    }
     case Literal(_, _, value) => value
-  }
 
   val parsedPacket = parsePacket(input)._1
 

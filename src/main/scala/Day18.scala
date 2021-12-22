@@ -25,7 +25,7 @@ import scala.annotation.tailrec
         case _ => None
 
     private def explode(leftIndex: Int, leftValue: Long, rightIndex: Int, rightValue: Long): Element = {
-      def update(i: Int, x: Element): (Int, Element) = x match {
+      def update(i: Int, x: Element): (Int, Element) = x match
         case Pair(_: Number, _: Number) if i == leftIndex + 1 => (i + 2) -> Number(0)
         case Pair(l, r) =>
           val (lastIndexLeft, elementLeft) = update(i, l)
@@ -34,7 +34,6 @@ import scala.annotation.tailrec
         case Number(v) if i == leftIndex => (i + 1) -> Number(v + leftValue)
         case Number(v) if i == rightIndex => (i + 1) -> Number(v + rightValue)
         case n => (i + 1) -> n
-      }
 
       update(0, this)._2
     }
@@ -65,7 +64,7 @@ import scala.annotation.tailrec
   def toRPN(s: String, operators: List[Char] = List.empty, output: List[String] = List.empty): List[String] =
     if (s.isEmpty) output
     else
-      (s.head, operators) match {
+      (s.head, operators) match
         case (',', o :: os) if o != '[' => toRPN(s, os, o.toString :: output)
         case (',', _) => toRPN(s.tail, ',' :: operators, output)
         case ('[', _) => toRPN(s.tail, '[' :: operators, output)
@@ -74,10 +73,9 @@ import scala.annotation.tailrec
         case _ =>
           val digits = s.takeWhile(_.isDigit)
           toRPN(s.drop(digits.length), operators, digits :: output)
-      }
 
   def parseElement(tokens: List[String]): (Element, List[String]) =
-    tokens.head match {
+    tokens.head match
       case "," =>
         val (children, rest) = (0 until 2).foldLeft((List.empty[Element], tokens.tail)) {
           case ((es, ts), _) =>
@@ -86,7 +84,6 @@ import scala.annotation.tailrec
         }
         (Pair(children.head, children.last), rest)
       case x => (Number(x.toInt), tokens.tail)
-    }
 
   val input: List[Element] = readFile("resources/day18").map(s => parseElement(toRPN(s))._1)
 

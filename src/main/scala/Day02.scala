@@ -5,21 +5,19 @@ import scala.io.Source
 def applyCommand(coordinates: (Int, Int), s: String): (Int, Int) = {
   val (x, y) = coordinates
   val (command, v) = parseCommand(s)
-  command match {
+  command match
     case "forward" => (x + v, y)
     case "down" => (x, y + v)
     case "up" => (x, y - v)
-  }
 }
 
 def applyCommandWithAim(position: (Int, Int, Int), s: String): (Int, Int, Int) = {
   val (x, y, aim) = position
   val (command, v) = parseCommand(s)
-  command match {
+  command match
     case "forward" => (x + v, y + (aim * v), aim)
     case "down" => (x, y, aim + v)
     case "up" => (x, y, aim - v)
-  }
 }
 
 def parseCommand(s: String): (String, Int) = {

@@ -14,10 +14,9 @@ def mark(board: Board, x: Int): Board = board.map(_.map { y => if (y._1 == x) y.
 
 @tailrec
 def findFirstWinnerScore(boards: Seq[Board], numbers: Seq[Int], lastNumber: Int = 0): Int =
-  boards.find(isWinning).map(score).match {
+  boards.find(isWinning).map(score) match
     case Some(score) => score * lastNumber
     case _ => findFirstWinnerScore(boards.map(mark(_, numbers.head)), numbers.tail, numbers.head)
-  }
 
 @tailrec
 def findLastWinnerScore(boards: Seq[Board], numbers: Seq[Int]): Int = {

@@ -28,11 +28,10 @@ import scala.annotation.tailrec
 
   @tailrec
   def findMaxHeights(x: Int, y: Int = ys.min, hs: List[Int] = List.empty): List[Int] =
-    (checkVelocity(x, y), hs) match {
+    (checkVelocity(x, y), hs) match
       case (Some(h), as) => findMaxHeights(x, y + 1, h :: as)
       case (None, as) if y < 100 => findMaxHeights(x, y + 1, as)
       case _ => hs
-    }
 
   val maxHeights = (Math.min(1, xs.head) to Math.max(0, xs.last))
     .filter(checkHorizontalVelocity(_))

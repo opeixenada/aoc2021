@@ -1,4 +1,4 @@
-import Util.{Coordinates, intMatrix, getNeighbours}
+import Util.{Coordinates, getNeighbours, intMatrix}
 
 import java.lang.Math.*
 import scala.annotation.tailrec
@@ -19,7 +19,7 @@ type Basin = Set[Coordinates]
   println(minimums.foldLeft(0) { case (acc, (x, y)) => acc + input(x)(y) + 1 })
 
   @tailrec
-  def findBasins(incompleteBasins: List[Basin], completeBasins: List[Basin]): List[Basin] = incompleteBasins match {
+  def findBasins(incompleteBasins: List[Basin], completeBasins: List[Basin]): List[Basin] = incompleteBasins match
     case x :: xs =>
       val newBasinPoints = x.flatMap { (i, j) =>
         getNeighbours(i, j, input).filter { (a, b) =>
@@ -31,7 +31,6 @@ type Basin = Set[Coordinates]
       else findBasins(xs.+:(x ++ newBasinPoints), completeBasins)
 
     case _ => completeBasins
-  }
 
   println(findBasins(minimums.map(Set(_)).toList, Nil).map(_.size).sorted.reverse.take(3).product)
 }
