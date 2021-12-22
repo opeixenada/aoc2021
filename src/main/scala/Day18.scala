@@ -89,10 +89,10 @@ import scala.annotation.tailrec
 
   println(input.reduce(_.add(_)).magnitude)
 
-  println((for {
-    x <- input
-    y <- input.filterNot(_ == x)
-  } yield {
-    x.add(y).magnitude
-  }).max)
+  println((
+    for {
+      x <- input
+      y <- input.filterNot(_ == x)
+    } yield x.add(y).magnitude
+    ).max)
 }
