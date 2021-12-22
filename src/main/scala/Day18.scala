@@ -1,4 +1,4 @@
-import Util.{Coordinates, readFile}
+import Util.readFile
 
 import java.util.UUID
 import scala.annotation.tailrec
