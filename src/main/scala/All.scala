@@ -22,4 +22,5 @@ import scala.io.Source
   day17()
   day18()
   day19()
+  day20()
 }
