@@ -1,6 +1,5 @@
 import Util.readFile
 
-import java.util.UUID
 import scala.annotation.tailrec
 
 @main def day21(): Unit = {

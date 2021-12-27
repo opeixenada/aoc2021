@@ -1,8 +1,5 @@
 import Util.readFile
 
-import java.util.UUID
-import scala.annotation.tailrec
-
 @main def day20(): Unit = {
   val input = readFile("resources/day20")
 
